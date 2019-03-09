@@ -1,8 +1,8 @@
 /*
  * Light up every segment on the Joey board in a loop and show corresponding pin-to-segment mappings in the serial monitor.
- *  Watch the LED segments and record the corresponding bit positions displayed on the monitor window.
+ * Watch the LED segments and record the corresponding bit positions displayed on the monitor window.
    
-   bit positions(0-15) of a displayBuffer element corresponds to segments of an led.
+   Bit positions(0-15) of a displayBuffer element corresponds to segments of an led.
       0
    +----+
  5 |  6 | 1
@@ -10,6 +10,17 @@
 12 |    | 2
    +----+   o 11
      13
+
+displayBuffer elements [ 1 | 5 | 7 | 0 ] corresponds to 4 physical leds (left->right).
+displayBuffer elements [ 4 | 6 ] corresponds to degree dot and colon.
+
+Examples:
+
+displayBuffer[0] = 1<<0 | 1<<5 | 1<<11 | 1<<12 | 1<<13 | 1<<6 | 1<<1 | 1<<2;    //digit 8. segments, rightmost LED
+displayBuffer[1] = 0b0011100001100111;   //digit 8. bitmask, leftmost LED
+displayBuffer[4] = 1 << 3;  (degree dot)
+displayBuffer[6] = 1 << 4;  (colon)
+show();       //send displayBuffer to Joey
 
  */
 #include <Wire.h>
@@ -139,7 +150,7 @@ uint16_t getKeys(uint8_t row) {
 
 uint16_t getJumpers() {
     getKeys(0);
-    delay(25);
+    delay(25);   //switch debounce
     return getKeys(0);
 }
 
