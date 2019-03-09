@@ -3,7 +3,7 @@
    When a jumper is inserted into a header, a decimal dot will light up. When the jumper is removed, the dot will disappear. 
    This is similar to detecting the action of a switch wired across the header.
 
-   bit positions(0-15) of a displayBuffer element corresponds to segments of an led.
+   Bit positions(0-15) of a displayBuffer element corresponds to segments of an led.
       0
    +----+
  5 |  6 | 1
@@ -12,21 +12,16 @@
    +----+   o 11
      13
 
-Eg:
-1 << 0 = top seg
-1 << 1 = top right seg
-1 << 5 = top left seg
-1 << 11 = decimal dot
-1 << 13 = bot seg
-
 displayBuffer elements [ 1 | 5 | 7 | 0 ] corresponds to 4 physical leds (left->right).
-displayBuffer elements [ 4 ] - degree dot
-displayBuffer elements [ 6 ] - colon
-Eg:
-displayBuffer[0] = 1<<0 | 1<<5 | 1<<11 | 1<<12 | 1<<13 | 1<<6 | 1<<1 | 1<<2;    //digit 8. in segments, rightmost LED
-displayBuffer[1] = 0b0011100001100111;   //digit 8. in binary, leftmost LED
+displayBuffer elements [ 4 | 6 ] corresponds to degree dot and colon.
+
+Examples:
+
+displayBuffer[0] = 1<<0 | 1<<5 | 1<<11 | 1<<12 | 1<<13 | 1<<6 | 1<<1 | 1<<2;    //digit 8. segments, rightmost LED
+displayBuffer[1] = 0b0011100001100111;   //digit 8. bitmask, leftmost LED
 displayBuffer[4] = 1 << 3;  (degree dot)
 displayBuffer[6] = 1 << 4;  (colon)
+show();       //send displayBuffer to Joey
 
  */
 #include <Wire.h>
