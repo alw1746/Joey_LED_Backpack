@@ -29,7 +29,7 @@ Note: Adafruit LED Backpack library which also supports the Holtek HT16K33 chip 
 Standalone test programs are found in the Examples directory. I will create a proper class library in future.
 
 1. **[RandomNumbers.ino](https://github.com/alw1746/Adafruit_ILI9486_STM32/blob/master/examples/graphicstest/graphicstest.ino)** - Display a 4-digit random number with some fancy effects.  
-[![RandomNumDisplay output](images/ranumvid.png)](https://www.youtube.com/watch?v=hBzeoJun87o&t=2s)
+[![RandomNumDisplay output](images/RandNumvid.png)](https://youtu.be/yJXaeY--OnA)
 
 2. **[ShowAll.ino](https://github.com/alw1746/Arduino-Joey/blob/master/examples/ShowAll/ShowAll.ino)** - Light up every segment on the Joey board in a loop and show corresponding pin-to-segment mappings in the serial monitor. Very useful debug tool.  
 [![ShowAll output](images/ShowAllvid.png)](https://youtu.be/etNIoB2-EFw)
