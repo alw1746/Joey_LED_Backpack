@@ -1,6 +1,7 @@
 /*
-   Read the state of the jumpers (JP1-JP3) and light up a dot. When a jumper is inserted into a header, a decimal dot will light up.
-   When the jumper is removed, the dot will disappear. This is equivalent to detecting the action of a switch wired across the header.
+   Read the state of the jumpers (JP1-JP3) and light up a dot.The jumpers are the functional equivalent of a DIP switch.
+   When a jumper is inserted into a header, a decimal dot will light up. When the jumper is removed, the dot will disappear. 
+   This is similar to detecting the action of a switch wired across the header.
 
    bit positions(0-15) of a displayBuffer element corresponds to segments of an led.
       0
