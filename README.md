@@ -35,5 +35,5 @@ Standalone test programs are found in the Examples directory. I will create a pr
 [![ShowAll output](images/grtestvid.png)](https://www.youtube.com/watch?v=hBzeoJun87o&t=2s)
 
 3. **[ReadKeys.ino](https://github.com/alw1746/Adafruit_ILI9486_STM32/blob/master/examples/graphicstest/graphicstest.ino)** - Read the state of the jumpers (JP1-JP3) and light up a dot. The jumpers can be used to connect to switches, pushbuttons, etc. 
-
+![ReadKeys](images/ReadKeys.png)
 
