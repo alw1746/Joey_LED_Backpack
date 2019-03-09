@@ -1,6 +1,6 @@
 /*
  * Light up every segment on the Joey board in a loop and show corresponding pin-to-segment mappings in the serial monitor.
- * To discover the mappings, watch both the LED segment and corresponding bitpos on the serial monitor output.
+ *  Watch the LED segments and record the corresponding bit positions displayed on the monitor window.
    
    bit positions(0-15) of a displayBuffer element corresponds to segments of an led.
       0
