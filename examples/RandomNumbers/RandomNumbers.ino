@@ -3,7 +3,7 @@
   If JP1 is open, the word PIC-CLUB is shown instead. Looks up an ASCII table defined in flash memory
   for the bit=to-segment map of a character. Not every character can be displayed on a 7 segment LED.
   
-   bit positions(0-15) of a displayBuffer element corresponds to segments of an led.
+   Bit positions(0-15) of a displayBuffer element corresponds to segments of an led.
       0
    +----+
  5 |  6 | 1
@@ -12,23 +12,18 @@
    +----+   o 11
      13
 
-Eg:
-1 << 0 = top seg
-1 << 1 = top right seg
-1 << 5 = top left seg
-1 << 11 = decimal dot
-1 << 13 = bot seg
-
 displayBuffer elements [ 1 | 5 | 7 | 0 ] corresponds to 4 physical leds (left->right).
-displayBuffer elements [ 4 ] - degree dot
-displayBuffer elements [ 6 ] - colon
-Eg:
-displayBuffer[0] = 1<<0 | 1<<5 | 1<<11 | 1<<12 | 1<<13 | 1<<6 | 1<<1 | 1<<2;    //digit 8. in segments, rightmost LED
-displayBuffer[1] = 0b0011100001100111;   //digit 8. in binary, leftmost LED
+displayBuffer elements [ 4 | 6 ] corresponds to degree dot and colon.
+
+Examples:
+
+displayBuffer[0] = 1<<0 | 1<<5 | 1<<11 | 1<<12 | 1<<13 | 1<<6 | 1<<1 | 1<<2;    //digit 8. segments, rightmost LED
+displayBuffer[1] = 0b0011100001100111;   //digit 8. bitmask, leftmost LED
 displayBuffer[4] = 1 << 3;  (degree dot)
 displayBuffer[6] = 1 << 4;  (colon)
+show();       //send displayBuffer to Joey
 
- */
+*/
 
 #include <Wire.h>
 
@@ -39,6 +34,7 @@ displayBuffer[6] = 1 << 4;  (colon)
 #define  __HT16K33_BLINKRATE_HALFHZ  0x03
 #define  __HT16K33_ADDRESS_KEY_DATA  0x40
 
+//default paramter value declaration.
 void setColon(bool state=true);
 void setDegrees(bool state=true);
 void setDP(uint8_t digit,bool state=true);
@@ -50,6 +46,7 @@ uint8_t ledarray[]={1,5,7,0};
 uint8_t randnum;
 uint16_t displayBuffer[8];
 
+//ASCII table in flash
 static const uint16_t alphafonttable[] PROGMEM =  {
 0b0000000000000001,
 0b0000000000000010,
@@ -309,13 +306,12 @@ void writeDigitRaw(uint8_t d, uint16_t bitmask) {
 }
 
 void writeDigitNum(uint8_t d, uint8_t num, boolean dot) {
-  uint16_t dotfont=0;
-  
   if (d > 7) return;
   uint16_t numfont = pgm_read_word(alphafonttable+'0'+num);
   if (dot)
-   dotfont=pgm_read_word(alphafonttable+'.');
-  writeDigitRaw(d, numfont | dotfont);
+    writeDigitRaw(d, numfont | 1 << 11);
+  else
+    writeDigitRaw(d, numfont);
 }
 
 void setColon(bool state) {
@@ -361,7 +357,7 @@ uint16_t getKeys(uint8_t row) {
 
 uint16_t getJumpers() {
     getKeys(0);
-    delay(25);
+    delay(25);   //switch debounce
     return getKeys(0);
 }
 
