@@ -31,7 +31,7 @@ Standalone test programs are found in the Examples directory. I will create a pr
 1. **[RandomNumbers.ino](https://github.com/alw1746/Adafruit_ILI9486_STM32/blob/master/examples/graphicstest/graphicstest.ino)** - Display 4 random digits with some fancy effects.  
 [![RandomNumDisplay output](images/grtestvid.png)](https://www.youtube.com/watch?v=hBzeoJun87o&t=2s)
 
-2. **[ShowAll.ino](https://github.com/alw1746/Adafruit_ILI9486_STM32/blob/master/examples/graphicstest/graphicstest.ino)** - Light up every segment on the board in a loop and show corresponding pin-to-segment mappings in the serial monitor. Very useful debug tool.  
+2. **[ShowAll.ino](https://github.com/alw1746/Arduino-Joey/blob/master/examples/ShowAll/ShowAll.ino)** - Light up every segment on the board in a loop and show corresponding pin-to-segment mappings in the serial monitor. Very useful debug tool.  
 [![ShowAll output](images/grtestvid.png)](https://www.youtube.com/watch?v=hBzeoJun87o&t=2s)
 
 3. **[ReadKeys.ino](https://github.com/alw1746/Arduino-Joey/blob/master/examples/ReadKeys/ReadKeys.ino)** - Read the state of the jumpers (JP1-JP3) and light up a dot. The jumpers can be used to connect to switches, pushbuttons, etc.  
