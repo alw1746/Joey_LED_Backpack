@@ -26,6 +26,8 @@ show();       //send displayBuffer to Joey
 */
 
 #include <Wire.h>
+#include <OneWire.h> 
+#include <DallasTemperature.h>
 
 //Blink rate
 #define  __HT16K33_BLINKRATE_OFF     0x00
@@ -33,6 +35,11 @@ show();       //send displayBuffer to Joey
 #define  __HT16K33_BLINKRATE_1HZ     0x02
 #define  __HT16K33_BLINKRATE_HALFHZ  0x03
 #define  __HT16K33_ADDRESS_KEY_DATA  0x40
+#define SEVENSEG_DIGITS 5
+#define toprseg 0b0000000000000010
+#define toplseg 0b0000000000100000
+#define botrseg 0b0000000000000100
+#define toplseg 0b0001000000000000
 
 //default paramter value declaration.
 void setColon(bool state=true);
@@ -40,10 +47,14 @@ void setDegrees(bool state=true);
 void setDP(uint8_t digit,bool state=true);
 void writeDigitNum(uint8_t d, uint8_t num, bool dot=false);
 
+#define ONE_WIRE_BUS 19
+OneWire oneWire(ONE_WIRE_BUS); 
+DallasTemperature sensors(&oneWire);
+
 const uint8_t addr = 0x70; // HT16K33 default address
 const int potPin  = A0;
 uint8_t ledarray[]={1,5,7,0};
-uint8_t randnum;
+uint8_t randnum,bufptr;
 uint16_t displayBuffer[8];
 
 //ASCII table in flash
@@ -174,7 +185,7 @@ static const uint16_t alphafonttable[] PROGMEM =  {
 0b0000100101001001, // {
 0b0000000000000110, // |
 0b0010010010001001, // }
-0b0000010100100000, // ~
+0b0000000000000001, // ~
 0b0011111111111111
 };
 
@@ -191,7 +202,9 @@ void setup() {
 }
 
 void loop() {
-
+  int intemp;
+  char outstr[8];
+  
   uint16_t keybuf=getJumpers();
   if (JP1_closed(keybuf))
   {
@@ -216,7 +229,34 @@ void loop() {
     clearFx();
     delay(500);
   }
-  else
+
+  else if (JP2_closed(keybuf))
+  {
+    sensors.requestTemperatures(); // Send the command to get temperature readings 
+    float temp=sensors.getTempCByIndex(0);
+    int intemp=(int)temp;
+    if (intemp > 99 || intemp < -9)
+      itoa(intemp, outstr, 10);
+    else
+        dtostrf(temp,4, 1, outstr);
+    setDegrees(true);
+    writeDigitAscii(0,'C');
+    bufptr=0;
+    for (int i=0; i < 4; i++) {
+      if (outstr[i]=='\0')
+        break;
+      else if (outstr[i]=='.')
+         setDP(ledarray[bufptr-1]);
+      else {
+        writeDigitAscii(ledarray[bufptr],outstr[i]);
+        bufptr++;
+      }
+    }
+    show();
+    delay(1000);
+  }
+  
+  else if (JP3_closed(keybuf))
   {
     writeDigitAscii(1,'P');
     writeDigitAscii(5,'I');
@@ -232,6 +272,61 @@ void loop() {
     show();
     delay(1000);
     clear();
+  }
+  else {
+    setDegrees(false);
+    int pausetime=100;
+    for (int i=0; i < 4; i++) {
+      writeDigitAscii(ledarray[i],'~');
+      show();
+      delay(pausetime);
+      displayBuffer[ledarray[i]]=0;
+      show();
+    }
+    writeDigitRaw(0,toprseg);
+    show();
+    delay(pausetime);
+    displayBuffer[0]=0;
+    show();
+    
+    for (int i=3; i > -1; i--) {
+      writeDigitAscii(ledarray[i],'-');
+      show();
+      delay(pausetime);
+      displayBuffer[ledarray[i]]=0;
+      show();
+    }
+    writeDigitRaw(1,toplseg);
+    show();
+    delay(pausetime);
+    displayBuffer[1]=0;
+    show();
+
+    for (int i=0; i < 4; i++) {
+      writeDigitAscii(ledarray[i],'_');
+      show();
+      delay(pausetime);
+      displayBuffer[ledarray[i]]=0;
+      show();
+    }
+    writeDigitRaw(0,botrseg);
+    show();
+    delay(pausetime);
+    displayBuffer[0]=0;
+    show();
+
+    for (int i=3; i > -1; i--) {
+      writeDigitAscii(ledarray[i],'-');
+      show();
+      delay(pausetime);
+      displayBuffer[ledarray[i]]=0;
+      show();
+    }
+    writeDigitRaw(1,toplseg);
+    show();
+    delay(pausetime);
+    displayBuffer[1]=0;
+    show();
   }
 }
 
@@ -329,7 +424,6 @@ void setDegrees(bool state) {
 }
 
 void setDP(uint8_t digit,bool state) {
-  uint16_t pattern;
   if (digit > 7)
     return;
   if (state)
@@ -388,4 +482,71 @@ void writeDigitFx(byte i,uint8_t chr) {
   segmentOn(i,5);
   writeDigitNum(i,chr);
   show();
+}
+
+void printFloat(double n, uint8_t fracDigits, uint8_t base) 
+{ 
+  uint8_t numericDigits = 4;   // available digits on display
+  boolean isNegative = false;  // true if the number is negative
+  
+  // is the number negative?
+  if(n < 0) {
+    isNegative = true;  // need to draw sign later
+    --numericDigits;    // the sign will take up one digit
+    n *= -1;            // pretend the number is positive
+  }
+  
+  // calculate the factor required to shift all fractional digits
+  // into the integer part of the number
+  double toIntFactor = 1.0;
+  for(int i = 0; i < fracDigits; ++i) toIntFactor *= base;
+  
+  // create integer containing digits to display by applying
+  // shifting factor and rounding adjustment
+  uint32_t displayNumber = n * toIntFactor + 0.5;
+  
+  // calculate upper bound on displayNumber given
+  // available digits on display
+  uint32_t tooBig = 1;
+  for(int i = 0; i < numericDigits; ++i) tooBig *= base;
+  
+  // if displayNumber is too large, try fewer fractional digits
+  while(displayNumber >= tooBig) {
+    --fracDigits;
+    toIntFactor /= base;
+    displayNumber = n * toIntFactor + 0.5;
+  }
+  
+  // did toIntFactor shift the decimal off the display?
+  if (toIntFactor < 1) {
+    printError();
+  } else {
+    // otherwise, display the number
+    int8_t displayPos = 4;
+    
+    if (displayNumber)  //if displayNumber is not 0
+    {
+      for(uint8_t i = 0; displayNumber || i <= fracDigits; ++i) {
+        boolean displayDecimal = (fracDigits != 0 && i == fracDigits);
+        writeDigitNum(displayPos--, displayNumber % base, displayDecimal);
+        if(displayPos == 2) writeDigitRaw(displayPos--, 0x00);
+        displayNumber /= base;
+      }
+    }
+    else {
+      writeDigitNum(displayPos--, 0, false);
+    }
+  
+    // display negative sign if negative
+    if(isNegative) writeDigitRaw(displayPos--, 0x40);
+  
+    // clear remaining display positions
+    while(displayPos >= 0) writeDigitRaw(displayPos--, 0x00);
+  }
+}
+
+void printError(void) {
+  for(uint8_t i = 0; i < SEVENSEG_DIGITS; ++i) {
+    writeDigitRaw(i, (i == 2 ? 0x00 : 0x40));
+  }
 }
