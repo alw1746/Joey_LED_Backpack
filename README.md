@@ -8,7 +8,9 @@ the first 26 pins of a Raspberry Pi. The holes on the PCB are slightly offset fr
 
 Python code support is available from their [github site](https://github.com/gooligumelec/Joey-support-Python-code) and I have added some C code here for Arduino. For this project, an ESP-32 was connected to Joey but the code should work on any microcontroller supported by the Arduino framework eg ATmega328, STM32, etc.
 
-![ESP32 Joey](images/ESP32-Joey.png)</center>
+![ESP32 Joey](images/ESP32-Joey.png)
+
+![Header pins](images/pins.png)
 
 Note: Adafruit LED Backpack library which also supports the Holtek HT16K33 chip does not play well with this board. The library uses 8 contiguous bits in the display buffer for each digit whereas Joey uses 16 bits to map the segments. As a result, the Adafruit's sevenseg test program show digits with missing segments.
 
