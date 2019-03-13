@@ -10,7 +10,7 @@ Python code support is available from their [github site](https://github.com/goo
 
 ![ESP32 Joey](images/ESP32-Joey.png)</center>
 
-Note: Adafruit LED Backpack library which also supports the Holtek HT16K33 chip does not play well with this board. The library uses 8 contiguous bits in the display buffer for each digit whereas Joey uses 16 bits to map the segments. As a result, the sevenseg test program show digits with missing segments.
+Note: Adafruit LED Backpack library which also supports the Holtek HT16K33 chip does not play well with this board. The library uses 8 contiguous bits in the display buffer for each digit whereas Joey uses 16 bits to map the segments. As a result, the Adafruit's sevenseg test program show digits with missing segments.
 
 ## Wiring diagram
   ![ESP32-Joey wiring](images/Wiring.png)
@@ -28,7 +28,7 @@ Note: Adafruit LED Backpack library which also supports the Holtek HT16K33 chip 
 ## Software
 Standalone test programs are found in the Examples directory. I will create a proper class library in future.
 
-1. **[RandomNumbers.ino](https://github.com/alw1746/Adafruit_ILI9486_STM32/blob/master/examples/graphicstest/graphicstest.ino)** - Display a 4-digit randomly generated number with some special effects such as blank,brightness,etc.  
+1. **[RandomNumbers.ino](https://github.com/alw1746/Adafruit_ILI9486_STM32/blob/master/examples/graphicstest/graphicstest.ino)** - Display various patterns on the 4-digit LEDs depending on jumper settings.  
 [![RandomNumDisplay output](images/RandNumvid.png)](https://youtu.be/NhdULcFH1z8)
 
 2. **[ShowAll.ino](https://github.com/alw1746/Arduino-Joey/blob/master/examples/ShowAll/ShowAll.ino)** - Light up every segment on the Joey board in a loop and show corresponding pin-to-segment mappings in the serial monitor. Very useful debug tool.  
