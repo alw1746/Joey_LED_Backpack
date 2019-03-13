@@ -1,7 +1,12 @@
 /*
-  Display a 4-digit randomly generated number with some special effects such as blank,brightness,etc.
-  If JP1 is open, the word PIC-CLUB is shown instead. Looks up an ASCII table defined in flash memory
-  for the bit=to-segment map of a character. Not every character can be displayed on a 7 segment LED.
+  Display various patterns on the 4-digit LEDs depending on jumper settings.
+  JP1 & JP3   ASCII table
+  JP1         Random numbers
+  JP2         Temperature
+  JP3         PIC-CLUB
+  <open>      snake
+  Looks up an ASCII table defined in flash memory for the bit=to-segment map of a character. 
+  Character not displayable on a 7 segment LED is represented by '.' (dot).
   
    Bit positions(0-15) of a displayBuffer element corresponds to segments of an led.
       0
@@ -39,8 +44,8 @@ show();       //send displayBuffer to Joey
 #define toprseg 0b0000000000000010
 #define toplseg 0b0000000000100000
 #define botrseg 0b0000000000000100
-#define toplseg 0b0001000000000000
-
+#define botlseg 0b0001000000000000
+#define NOTDEF  0b0000100000000000      //undefined char = '.'
 //default paramter value declaration.
 void setColon(bool state=true);
 void setDegrees(bool state=true);
@@ -59,45 +64,45 @@ uint16_t displayBuffer[8];
 
 //ASCII table in flash
 static const uint16_t alphafonttable[] PROGMEM =  {
-0b0000000000000001,
-0b0000000000000010,
-0b0000000000000100,
-0b0000000000001000,
-0b0000000000010000,
-0b0000000000100000,
-0b0000000001000000,
-0b0000000010000000,
-0b0000000100000000,
-0b0000001000000000,
-0b0000010000000000,
-0b0000100000000000,
-0b0001000000000000,
-0b0010000000000000,
-0b0100000000000000,
-0b1000000000000000,
-0b0000000000000000,
-0b0000000000000000,
-0b0000000000000000,
-0b0000000000000000,
-0b0000000000000000,
-0b0000000000000000,
-0b0000000000000000,
-0b0000000000000000,
-0b0001001011001001,
-0b0001010111000000,
-0b0001001011111001,
-0b0000000011100011,
-0b0000010100110000,
-0b0001001011001000,
-0b0011101000000000,
-0b0001011100000000,
-0b0000000000000000, //  
-0b0000000000000110, // !
-0b0000001000100000, // "
-0b0001001011001110, // #
-0b0001001011101101, // $
-0b0000110000100100, // %
-0b0010001101011101, // &
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+NOTDEF,
+0b0000000000000000, //  SPACE
+NOTDEF, // !
+NOTDEF, // "
+NOTDEF, // #
+NOTDEF, // $
+NOTDEF, // %
+NOTDEF, // &
 0b0000000000001000, // '
 0b0010010000000000, // (
 0b0000100100000000, // )
@@ -118,12 +123,12 @@ static const uint16_t alphafonttable[] PROGMEM =  {
 0b0011000001100111, // 8
 0b0000000001100111, // 9
 0b0000000000010000, // :
-0b0000101000000000, // ;
-0b0010010000000000, // <
+NOTDEF, // ;
+NOTDEF, // <
 0b0010000001000000, // =
-0b0000100100000000, // >
-0b0001000010000011, // ?
-0b0000001010111011, // @
+NOTDEF, // >
+NOTDEF, // ?
+NOTDEF, // @
 0b0001000001100111, // A
 0b0011000001100100, // B
 0b0011000000100001, // C
@@ -134,26 +139,26 @@ static const uint16_t alphafonttable[] PROGMEM =  {
 0b0001000001100110, // H
 0b0000000000000110, // I
 0b0011000000000110, // J
-0b0010010001110000, // K
+NOTDEF, // K
 0b0011000000100000, // L
-0b0000010100110110, // M
+NOTDEF, // M
 0b0001000001000100, // N
 0b0011000000100111, // O
 0b0001000001100011, // P
-0b0010000000111111, // Q
+NOTDEF, // Q
 0b0001000001000000, // R
 0b0010000001100101, // S
 0b0001000001100000, // T
 0b0011000000100110, // U
-0b0000110000110000, // V
-0b0010100000110110, // W
-0b0010110100000000, // X
+NOTDEF, // V
+NOTDEF, // W
+NOTDEF, // X
 0b0010000001100110, // Y
-0b0000110000001001, // Z
+NOTDEF, // Z
 0b0011000000100001, // [
 0b0000000000000000, // 
 0b0010000000000111, // ]
-0b0000110000000011, // ^
+NOTDEF, // ^
 0b0010000000000000, // _
 0b0000000100000000, // `
 0b0001000001100111, // a
@@ -166,25 +171,25 @@ static const uint16_t alphafonttable[] PROGMEM =  {
 0b0001000001100100, // h
 0b0001000000000000, // i
 0b0011000000000110, // j
-0b0011011000000000, // k
+NOTDEF, // k
 0b0001000000100000, // l
-0b0001000011010100, // m
+NOTDEF, // m
 0b0001000001000100, // n
 0b0011000001000100, // o
 0b0001000001100011, // p
-0b0000010010000110, // q
+NOTDEF, // q
 0b0001000001000000, // r
 0b0010000001100101, // s
 0b0001000001100000, // t
 0b0011000000000100, // u
-0b0010000000000100, // v
-0b0010100000010100, // w
-0b0010100011000000, // x
+NOTDEF, // v
+NOTDEF, // w
+NOTDEF, // x
 0b0010000001100110, // y
-0b0000100001001000, // z
-0b0000100101001001, // {
+NOTDEF, // z
+0b0011000000100001, // {
 0b0000000000000110, // |
-0b0010010010001001, // }
+0b0010000000000111, // }
 0b0000000000000001, // ~
 0b0011111111111111
 };
@@ -206,7 +211,23 @@ void loop() {
   char outstr[8];
   
   uint16_t keybuf=getJumpers();
-  if (JP1_closed(keybuf))
+  if (JP1_closed(keybuf) && JP3_closed(keybuf))   //display ASCII table
+  {
+    int bufptr=0;
+    for (int i='0'; i <= '~'; i++) {
+        uint16_t font = pgm_read_word(alphafonttable+i);
+        displayBuffer[ledarray[bufptr]] = font;
+        show();
+        delay(1000);
+        bufptr++;
+        if (bufptr > 3) {
+          bufptr=0;
+          clear();
+        }
+    }
+    clear();
+  }
+  else if (JP1_closed(keybuf))        //random numbers
   {
     for (int i=0; i < 4; i++) {
       randnum=(int)random(0,9999)/1000;
@@ -230,7 +251,7 @@ void loop() {
     delay(500);
   }
 
-  else if (JP2_closed(keybuf))
+  else if (JP2_closed(keybuf))      //temperature
   {
     sensors.requestTemperatures(); // Send the command to get temperature readings 
     float temp=sensors.getTempCByIndex(0);
@@ -256,7 +277,7 @@ void loop() {
     delay(1000);
   }
   
-  else if (JP3_closed(keybuf))
+  else if (JP3_closed(keybuf))      //PIC-CLUB
   {
     writeDigitAscii(1,'P');
     writeDigitAscii(5,'I');
@@ -273,7 +294,7 @@ void loop() {
     delay(1000);
     clear();
   }
-  else {
+  else {        //snake
     setDegrees(false);
     int pausetime=100;
     for (int i=0; i < 4; i++) {
@@ -296,7 +317,7 @@ void loop() {
       displayBuffer[ledarray[i]]=0;
       show();
     }
-    writeDigitRaw(1,toplseg);
+    writeDigitRaw(1,botlseg);
     show();
     delay(pausetime);
     displayBuffer[1]=0;
