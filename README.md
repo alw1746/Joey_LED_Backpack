@@ -6,7 +6,7 @@ the first 26 pins of a Raspberry Pi. The holes on the PCB are slightly offset fr
 
 ![RPi Joey](images/RPi-Joey.jpg)
 
-Python code support is available from their [github site](https://github.com/gooligumelec/Joey-support-Python-code) and I have added some C code here for Arduino. For this project, an ESP-32 was connected to Joey but the code should work on any microcontroller supported by the Arduino framework eg ATmega328, STM32, etc.
+Python code support is available from their [github site](https://github.com/gooligumelec/Joey-support-Python-code) and I have created a C++ class library here for Arduino. For this project, an ESP-32 was connected to Joey but the code should work on any microcontroller supported by the Arduino framework eg ATmega328, STM32, etc.
 
 ![ESP32 Joey](images/ESP32-Joey.png)
 
@@ -39,5 +39,5 @@ Sample applications which uses the Joey_LEDBackpack class library are found unde
 3. **[ReadKeys.ino](https://github.com/alw1746/Joey_LED_Backpack/blob/master/examples/ReadKeys/ReadKeys.ino)** - Read the state of the jumpers (JP1-JP3) and light up a dot. The jumpers are the functional equivalent of a DIP switch.  
 ![ReadKeys](images/ReadKeys.png)
 
-3. **[sevenseg.ino](https://github.com/alw1746/Joey_LED_Backpack/blob/master/examples/sevenseg/sevenseg.ino)** - Adafruit LED Backpack example modified to use Joey_7segment class instead of Adafruit_7segment.  
+3. **[sevenseg.ino](https://github.com/alw1746/Joey_LED_Backpack/blob/master/examples/sevenseg/sevenseg.ino)** - Adafruit LED Backpack sevenseg example modified to call Joey_7segment class instead of Adafruit_7segment. No other changes required.  
 ![ReadKeys](images/ReadKeys.png)
