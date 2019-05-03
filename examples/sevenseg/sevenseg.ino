@@ -22,9 +22,10 @@
 
 #include <Wire.h> // Enable this line if using Arduino Uno, Mega, etc.
 #include <Adafruit_GFX.h>
-#include "Joey_LEDBackpack.h"
-
+//#include "Adafruit_LEDBackpack.h"
 //Adafruit_7segment matrix = Adafruit_7segment();
+
+#include "Joey_LEDBackpack.h"
 Joey_7segment matrix = Joey_7segment();
 
 void setup() {
