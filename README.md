@@ -28,16 +28,16 @@ Note: Adafruit LED Backpack library which also supports the Holtek HT16K33 chip 
 |6      |GND  |
 
 ## Software
-Sample applications which uses the Joey_LEDBackpack class library are found under the Examples directory .
+Sample applications which uses the Joey_LEDBackpack class library are found under the examples directory. Clone this repository and and unzip to your .../Arduino/libraries folder.
 
-1. **[RandomNumbers.ino](https://github.com/alw1746/Adafruit_ILI9486_STM32/blob/master/examples/graphicstest/graphicstest.ino)** - Display various patterns on the 4-digit LEDs depending on jumper settings.  
+1. **[RandomNumbers.ino](https://github.com/alw1746/Joey_LED_Backpack/blob/master/examples/RandomNumbers/RandomNumbers.ino)** - Display various patterns on the 4-digit LEDs depending on jumper settings.  
 [![RandomNumDisplay output](images/RandNumvid.png)](https://youtu.be/NhdULcFH1z8)
 
-2. **[ShowAll.ino](https://github.com/alw1746/Arduino-Joey/blob/master/examples/ShowAll/ShowAll.ino)** - Light up every segment on the Joey board in a loop and show corresponding pin-to-segment mappings in the serial monitor. Very useful debug tool.  
+2. **[ShowAll.ino](https://github.com/alw1746/Joey_LED_Backpack/blob/master/examples/ShowAll/ShowAll.ino)** - Light up every segment on the Joey board in a loop and show corresponding pin-to-segment mappings in the serial monitor. Very useful debug tool.  
 [![ShowAll output](images/ShowAllvid.png)](https://youtu.be/etNIoB2-EFw)
 
-3. **[ReadKeys.ino](https://github.com/alw1746/Arduino-Joey/blob/master/examples/ReadKeys/ReadKeys.ino)** - Read the state of the jumpers (JP1-JP3) and light up a dot. The jumpers are the functional equivalent of a DIP switch.  
+3. **[ReadKeys.ino](https://github.com/alw1746/Joey_LED_Backpack/blob/master/examples/ReadKeys/ReadKeys.ino)** - Read the state of the jumpers (JP1-JP3) and light up a dot. The jumpers are the functional equivalent of a DIP switch.  
 ![ReadKeys](images/ReadKeys.png)
 
-3. **[sevenseg.ino](https://github.com/alw1746/Arduino-Joey/blob/master/examples/sevenseg/sevenseg.ino)** - Adafruit LED Backpack exmple  but uses the Joey_7segment class instead.  
+3. **[sevenseg.ino](https://github.com/alw1746/Joey_LED_Backpack/blob/master/examples/sevenseg/sevenseg.ino)** - Adafruit LED Backpack example modified to use Joey_7segment class instead of Adafruit_7segment.  
 ![ReadKeys](images/ReadKeys.png)
