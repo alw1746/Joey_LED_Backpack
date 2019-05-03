@@ -39,5 +39,5 @@ Sample applications which uses the Joey_LEDBackpack class library are found unde
 3. **[ReadKeys.ino](https://github.com/alw1746/Joey_LED_Backpack/blob/master/examples/ReadKeys/ReadKeys.ino)** - Read the state of the jumpers (JP1-JP3) and light up a dot. The jumpers are the functional equivalent of a DIP switch.  
 ![ReadKeys](images/ReadKeys.png)
 
-3. **[sevenseg.ino](https://github.com/alw1746/Joey_LED_Backpack/blob/master/examples/sevenseg/sevenseg.ino)** - Adafruit LED Backpack sevenseg example modified to call Joey_7segment class instead of Adafruit_7segment. No other changes required.  
+3. **[sevenseg.ino](https://github.com/alw1746/Joey_LED_Backpack/blob/master/examples/sevenseg/sevenseg.ino)** - Adafruit LED Backpack sevenseg example modified to instantiate Joey_7segment class instead of Adafruit_7segment. No other changes required.  
 ![ReadKeys](images/ReadKeys.png)
