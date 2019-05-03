@@ -28,7 +28,7 @@ Note: Adafruit LED Backpack library which also supports the Holtek HT16K33 chip 
 |6      |GND  |
 
 ## Software
-Standalone test programs are found in the Examples directory. I will create a proper class library in future.
+Sample applications which uses the Joey_LEDBackpack class library are found under the Examples directory .
 
 1. **[RandomNumbers.ino](https://github.com/alw1746/Adafruit_ILI9486_STM32/blob/master/examples/graphicstest/graphicstest.ino)** - Display various patterns on the 4-digit LEDs depending on jumper settings.  
 [![RandomNumDisplay output](images/RandNumvid.png)](https://youtu.be/NhdULcFH1z8)
@@ -39,3 +39,5 @@ Standalone test programs are found in the Examples directory. I will create a pr
 3. **[ReadKeys.ino](https://github.com/alw1746/Arduino-Joey/blob/master/examples/ReadKeys/ReadKeys.ino)** - Read the state of the jumpers (JP1-JP3) and light up a dot. The jumpers are the functional equivalent of a DIP switch.  
 ![ReadKeys](images/ReadKeys.png)
 
+3. **[sevenseg.ino](https://github.com/alw1746/Arduino-Joey/blob/master/examples/sevenseg/sevenseg.ino)** - Adafruit LED Backpack exmple  but uses the Joey_7segment class instead.  
+![ReadKeys](images/ReadKeys.png)
