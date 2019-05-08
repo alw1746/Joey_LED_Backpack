@@ -104,9 +104,9 @@ class Joey_7segment : public Joey_LEDBackpack {
   void printError(void);
 
   size_t write(uint8_t c);
-  void writeDigitRaw(uint8_t x, uint8_t bitmask);
+  void writeDigitRaw(uint8_t x, uint16_t bitmask);
   void writeDigitAscii(uint8_t n, uint8_t a);
-  void writeDigitNum(uint8_t d, uint8_t num, bool dot=false);
+  void writeDigitNum(uint8_t d, uint16_t num, bool dot=false);
   void drawColon(bool state=true);
   void drawDegree(bool state=true);
   void drawDP(uint8_t digit,bool state=true);

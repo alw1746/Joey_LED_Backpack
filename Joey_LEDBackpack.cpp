@@ -397,7 +397,7 @@ size_t Joey_7segment::write(uint8_t c) {
 }
 
 //display raw bitmask
-void Joey_7segment::writeDigitRaw(uint8_t d, uint8_t bitmask) {
+void Joey_7segment::writeDigitRaw(uint8_t d, uint16_t bitmask) {
   if (d > 7) return;
   displaybuffer[d] = bitmask;
 }
@@ -410,7 +410,7 @@ void Joey_7segment::writeDigitAscii(uint8_t n, uint8_t a) {
 }
 
 //display binary number as ASCII with/out decimal.
-void Joey_7segment::writeDigitNum(uint8_t d, uint8_t num, bool dot) {
+void Joey_7segment::writeDigitNum(uint8_t d, uint16_t num, bool dot) {
   if (d > 7) return;
   uint16_t numfont = pgm_read_word(alphafonttable+'0'+num);
   if (dot)
